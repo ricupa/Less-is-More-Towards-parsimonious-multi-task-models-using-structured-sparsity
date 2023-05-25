@@ -1,0 +1,76 @@
+
+### conda activate MTLenv
+### python main_gridsearch.py --config_exp config/exp_gridsearch_single_mtl.yaml
+
+# 1. segmentsemantic
+# 2. depth_euclidean
+# 3. surface_normal
+# 4. edge_texture   ### not used edge detection for the article
+## 5. multi_seg_depth
+## 6. multi_seg_sn
+## 7. multi_sn_depth
+## 8. multi_seg_sn_depth
+
+
+
+'Experiment_name': 'GridSearch_8_multi_seg_sn_depth' 
+'dataset_name' : 'NYU'
+'task_list': ['segmentsemantic','depth_euclidean','surface_normal']  ###
+### 'surface_normal', 'edge_texture', 'segmentsemantic','depth_euclidean'
+'setup': 'multitask' #### 'multitask', 'singletask'
+'group_sparsity' : True
+'sparsity_threshold': 0
+'backbone' : 'resnetd50' #### resnetd50,resnetd101
+'checkpoint': False 
+'checkpoint_folder': '../results/runs/'
+'wandb_img_log': False
+
+
+# COMBINE LOSSES
+'comb_loss' : 'uncertainity'   # 'wt_sum','uncertainity', 'sum'
+
+# BATCH SPECS
+'train_batch_size' : 16   
+'val_batch_size' : 8
+'test_batch_size' : 8
+
+# HYPERPARAMETERS
+
+'input_shape': 256
+'epochs' : 1000
+'num_workers': 8
+'earlystop_patience': 25             ### keep greater than 10 since the scheduler patience is 10
+'task_earlystop_patience' : 25       ### keep greater than 10 since the scheduler patience is 10
+'input_img_channels': 3
+
+
+# LOSS FUNCTION
+### seg loss function (for example)
+'seg_loss_fn': 'softCEloss'   ####  dice, Tversky,  softCEloss, Focal
+
+
+#  INITIAL NON SPARSE OPTIMIZER PARAMETERS (for the task heads)
+'optimizer': 'adam'    ### 'sgd', 'adamw' , 'adam' 
+'optimizer_params': 
+    'learning_rate': 0.0001
+    'betas': [0.9, 0.999]
+    'weight_decay' : 0.01
+    'penalty' : 'l1_l2'
+    'lambda' : 0.00001   #### not being used 
+
+# BACKBONE OPTIMIZER PARAMETERS 
+'bb_optimizer': 'adam'    ### 'sgd', 'adamw' , 'adam'  #### in case of sparsity it is always ADAMW
+'bb_optimizer_params': 
+    'learning_rate': 0.0001 #####0.00001
+    'betas': [0.9, 0.999]
+    'weight_decay' : 0.1
+    'penalty' : 'l1_l2'
+    'lambda' : None #### 
+
+
+#### DATA 
+'num_input_ch' : 3
+'data_dir_NYU' : "/home/ricupa/Documents/M3TL/NYU_dataset/NYUD_MT"
+
+### PRIOR INFORMATION
+'taskonomy_prior_factor' : "/home/ricupa/Documents/M3TL/taskonomy_dataset/taskonomy_dataset/utilities/semseg_prior_factor.npy"
