@@ -6,7 +6,7 @@ torch.cuda.empty_cache()
 os.environ["CUDA_LAUNCH_BLOCKING"]= '1'
 # os.enviorn['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:20000'
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"]= "6"
+os.environ["CUDA_VISIBLE_DEVICES"]= "0"
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.enabled = True
 import numpy as np
@@ -129,14 +129,7 @@ def main():
         print('train loss: ', loss)
         print('train metric: ', metric)
 
-        # for keys in loss.keys():
-        #     epochwise_train_losses_dict[keys].append(float(loss[keys]))          
-        
-        # for task,value in metric.items():
-        #     for k,v in value.items():
-        #         epochwise_train_metric_dict[task][k].append(float(v))
 
-        # wandb_logger(config,epoch,loss,metric,set='train') 
         
         for key, value in loss.items():
             wandb.log({f"train/loss/{key}": value})
@@ -157,7 +150,7 @@ def main():
         print('val loss: ', vloss)
         print('val metric: ', vmetric)
         
-        # wandb_logger(config,epoch,vloss,vmetric,set='validation')
+
         
         for key, value in vloss.items():
             wandb.log({f"validation/loss/{key}": value})
@@ -171,30 +164,23 @@ def main():
             else:
                 wandb.log({f"validation/metric/{key}": value})
                 epochwise_val_metric_dict[key].append(float(value))
-                
-        # for keys in vloss.keys():
-        #     epochwise_val_losses_dict[keys].append(vloss[keys])
+
         
-        # for task,value in vmetric.items():
-        #     for k,v in value.items():
-        #         epochwise_val_metric_dict[task][k].append(v)   
-                
+        ##### also test for every epoch to see the performance (not necessary)
+        # test_loss, test_metric = trainer.test(epoch, model)
         
-        ##### also test for every epoch to see the performance 
-        test_loss, test_metric = trainer.test(epoch, model)
+        # print('test loss: ', test_loss)
+        # print('test metric: ', test_metric)
         
-        print('test loss: ', test_loss)
-        print('test metric: ', test_metric)
-        
-        for key, value in test_loss.items():
-            wandb.log({f"test/loss/{key}": value})
+        # for key, value in test_loss.items():
+        #     wandb.log({f"test/loss/{key}": value})
             
-        for key, value in test_metric.items():
-            if isinstance(value, dict):
-                for sub_key, sub_value in value.items():
-                    wandb.log({f"test/metric/{key}/{sub_key}": sub_value})
-            else:
-                wandb.log({f"test/metric/{key}": value})
+        # for key, value in test_metric.items():
+        #     if isinstance(value, dict):
+        #         for sub_key, sub_value in value.items():
+        #             wandb.log({f"test/metric/{key}/{sub_key}": sub_value})
+        #     else:
+        #         wandb.log({f"test/metric/{key}": value})
         
         
                 
@@ -210,16 +196,7 @@ def main():
                         #### freeze the task head and backbone
                         for params in head.parameters():
                             params.requires_grad = False
-                        # backbone = model.backbone
-                        # for ct, child in enumerate(backbone.children()): 
-                        #     for param in child.parameters():
-                        #         param.requires_grad = False
-                                
 
-                # elif (task != 'total') and (config['flag'][task] == 0):
-                #     vloss[task] = config['es_loss'][task]              
-                # else:
-                #     continue 
         
 
         
@@ -249,8 +226,7 @@ def main():
 
     print('-----testing the best model -------')
     
-    
-    
+       
     model = get_model(config)
     model = model.cuda()
     epoch = 0

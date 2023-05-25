@@ -1,4 +1,4 @@
-
+###### this file can be used for giving a range of lambda values and observing the performance (this is not exactly gridsearch, but that is what we are calling it here).
 ### conda activate MTLenv
 ### python main_gridsearch.py --config_exp config/exp_gridsearch_single_mtl.yaml
 
@@ -19,7 +19,7 @@
 ### 'surface_normal', 'edge_texture', 'segmentsemantic','depth_euclidean'
 'setup': 'multitask' #### 'multitask', 'singletask'
 'group_sparsity' : True
-'sparsity_threshold': 0
+'sparsity_threshold': 0  #### if sparsity needs to be introduced after some epochs, 0 means it was applied from the start.
 'backbone' : 'resnetd50' #### resnetd50,resnetd101
 'checkpoint': False 
 'checkpoint_folder': '../results/runs/'
@@ -39,8 +39,8 @@
 'input_shape': 256
 'epochs' : 1000
 'num_workers': 8
-'earlystop_patience': 25             ### keep greater than 10 since the scheduler patience is 10
-'task_earlystop_patience' : 25       ### keep greater than 10 since the scheduler patience is 10
+'earlystop_patience': 25             
+'task_earlystop_patience' : 25       
 'input_img_channels': 3
 
 
@@ -49,7 +49,7 @@
 'seg_loss_fn': 'softCEloss'   ####  dice, Tversky,  softCEloss, Focal
 
 
-#  INITIAL NON SPARSE OPTIMIZER PARAMETERS (for the task heads)
+#  NON SPARSE OPTIMIZER PARAMETERS (for the task heads)
 'optimizer': 'adam'    ### 'sgd', 'adamw' , 'adam' 
 'optimizer_params': 
     'learning_rate': 0.0001
@@ -65,12 +65,10 @@
     'betas': [0.9, 0.999]
     'weight_decay' : 0.1
     'penalty' : 'l1_l2'
-    'lambda' : None #### 
+    'lambda' : None ####  change in the main_gridsearch.py file, enter a list of values
 
 
 #### DATA 
 'num_input_ch' : 3
 'data_dir_NYU' : "/home/ricupa/Documents/M3TL/NYU_dataset/NYUD_MT"
 
-### PRIOR INFORMATION
-'taskonomy_prior_factor' : "/home/ricupa/Documents/M3TL/taskonomy_dataset/taskonomy_dataset/utilities/semseg_prior_factor.npy"

@@ -1,6 +1,6 @@
 
 ##### conda activate MTLenv
-###### python get_out_put_celeb.py
+###### python get_out_put_celeb.py --exp_name 8_2_multi_seg_male_smile_ --num_trials 5
 
 
 
@@ -21,11 +21,16 @@ from utils.utils_common import *
 from train_val_test.trainer_class import Trainer
 import json
 import collections
+import argparse
 from collections import defaultdict, abc
 import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 
+parser = argparse.ArgumentParser(description='Inference')
+parser.add_argument('--exp_name', help='experiment or folder name of the model that needs to be evaluated, if there are several trials remember to check the experiment name in the main function')
+parser.add_argument('--num_trials', help='if the training was done for multiple trials enter the number of trials otherwise 1')
+args = parser.parse_args()
 
 
 def flatten_dict(d, parent_key='', sep='_'):
@@ -83,16 +88,21 @@ def main():
     
     root_dir = "/home/ricupa/Documents/MTL_meta_adaptive_features/MTL_adaptive_results/new/"
     
-    exp = '11_multi_male_smile_1e5__'   ###  
-    num_trials = 3
+    exp = args.exp_name   
+
+    num_trials = args.num_trials
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     all_metric_dict = collections.defaultdict(lambda: defaultdict(list))
     
     for i in range(num_trials):
+
         print('for trial -', i)
         
-        Exp_name = exp+'trial_'+str(i)
-        
+        if num_trials != 1:
+            Exp_name = exp+'trial_'+str(i)
+        else:
+            Exp_name = exp
+
         dir_checkpoint = root_dir + Exp_name
         config = create_config(dir_checkpoint +'/config_file.yaml') 
         config['wandb_img_log'] = False

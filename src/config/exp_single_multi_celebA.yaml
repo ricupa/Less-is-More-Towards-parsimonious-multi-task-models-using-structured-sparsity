@@ -1,8 +1,4 @@
-
-##### screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs kill
-
-
-##### conda activate MTLmetaenv
+##### conda activate MTLenv
 ### python main_multi_trials.py --config_exp config/exp_single_multi_celebA.yaml
 
 # ####class_glasses      #### very high imbalance so not using this task 
@@ -11,22 +7,22 @@
 # 4. class_eyebrows
 # 5. class_smile
 # 6 multi_seg_male 
-# 7 multi_seg_smile   #### not using as of now 
-# 8 multi_male_eyebrows   #### not using as of now 
+# 7 multi_seg_smile   
+# 8 multi_male_eyebrows  
 # 9 multi_male_eyebrows_smile
 # 10 multi_seg_male_eyebrows_smile
 
 'Experiment_name': '11_1_multi_male_smile_1e5__' 
-'dataset_name' : 'celebA'  ###### 'NYU', 'celebA'
-'task_list': ['class_male','class_smile']  ###   'class_male' , 'class_eyebrows', 'class_smile', 'segmentsemantic', 'class_glasses'
+'dataset_name' : 'celebA'  ######'celebA'
+'task_list': ['class_male','class_smile']  ###   'class_male' , 'class_eyebrows', 'class_smile', 'segmentsemantic', 
 'setup': 'multitask' #### 'multitask', 'singletask'
 'group_sparsity' : True
-'sparsity_threshold': 0
+'sparsity_threshold': 0 #### if sparsity needs to be introduced after some epochs, 0 means it was applied from the start.
 'backbone' : 'resnetd50' #### resnetd50,resnetd101
 'checkpoint': False 
 'checkpoint_folder': '/home/ricupa/Documents/MTL_meta_adaptive_features/MTL_adaptive_results/new/'
 'wandb_img_log': False
-'num_trials': 2
+'num_trials': 0
 # 'lambda_list' : [0, 0.000001, 0.00001, 0.0001]
 ### [0.001, 0.0001, 0.00001, 0.000001, 0.0000001]
 ##### [0.001, 0.0001, 0.00001, 0.000001]
@@ -46,8 +42,8 @@
 'input_shape': 256
 'epochs' : 1000
 'num_workers': 8
-'earlystop_patience': 10              ### keep greater than 10 since the scheduler patience is 10
-'task_earlystop_patience' : 10        ### keep greater than 10 since the scheduler patience is 10
+'earlystop_patience': 10              
+'task_earlystop_patience' : 10        
 'input_img_channels': 3
 
 
@@ -56,7 +52,7 @@
 'seg_loss_fn': 'softCEloss'   ####  dice, Tversky,  softCEloss, Focal
 
 
-#  INITIAL NON SPARSE OPTIMIZER PARAMETERS
+#  NON SPARSE OPTIMIZER PARAMETERS (for the task heads)
 'optimizer': 'adam'    ### 'sgd', 'adamw' , 'adam' 
 'optimizer_params': 
     'learning_rate': 0.0001

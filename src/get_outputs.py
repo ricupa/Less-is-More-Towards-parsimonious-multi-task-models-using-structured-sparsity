@@ -1,5 +1,5 @@
 ##### conda activate MTLenv
-###### python get_outputs.py
+###### python get_outputs.py --exp_name 8_2_multi_seg_sn_depth_ --num_trials 5
 
 import os
 import gc
@@ -22,9 +22,13 @@ import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 import time
+import argparse
 
 
-
+parser = argparse.ArgumentParser(description='Inference')
+parser.add_argument('--exp_name', help='experiment or folder name of the model that needs to be evaluated, if there are several trials remember to check the experiment name in the main function')
+parser.add_argument('--num_trials', help='if the training was done for multiple trials enter the number of trials otherwise 1')
+args = parser.parse_args()
 
 
 def flatten_dict(d, parent_key='', sep='_'):
@@ -82,17 +86,24 @@ def calculate_percentage_sparsity(model):
 def main():
     
     root_dir = "/home/ricupa/Documents/MTL_meta_adaptive_features/MTL_adaptive_results/new/"
-    ####new/
-    ###### "/home/ricupa/Documents/MTL_meta_adaptive_features/MTL_adaptive_results/new/"
-    exp = '8_2_multi_seg_sn_depth_1e-6_'   ###  
+    
+    # exp = '8_2_multi_seg_sn_depth_1e-6_'   ###  
+    exp = args.exp_name   
+
+    num_trials = args.num_trials
     
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     all_metric_dict = collections.defaultdict(lambda: defaultdict(list))
     num_trials = 5
     for i in range(num_trials):
         print('for trial -', i)
+
+        if num_trials != 1:
+            Exp_name = exp+'trial_'+str(i)
+        else:
+            Exp_name = exp
         
-        Exp_name = exp+'trial_'+str(i)
+        # Exp_name = exp+'trial_'+str(i)
         # Exp_name = exp ### for GS
         dir_checkpoint = root_dir + Exp_name
         config = create_config(dir_checkpoint +'/config_file.yaml') 

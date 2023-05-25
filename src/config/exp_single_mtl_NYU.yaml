@@ -1,6 +1,6 @@
 
 ##### conda activate MTLenv
-### python main.py --config_exp config/exp_single_mtl.yaml
+### python main.py --config_exp config/exp_single_mtl_NYU.yaml
 
 # 1. segmentsemantic
 # 2. depth_euclidean
@@ -12,22 +12,17 @@
 ## 8. multi_seg_sn_depth
 
 'Experiment_name': '8_multi_seg_sn_depth_lambda1e-6' 
-'dataset_name' : 'NYU'  ###### 'NYU', 'celebA'
+'dataset_name' : 'NYU'  ###### 'NYU'
 'task_list': ['segmentsemantic','surface_normal','depth_euclidean']  ###
 ### 'surface_normal', 'edge_texture', 'segmentsemantic','depth_euclidean'
 'setup': 'multitask' #### 'multitask', 'singletask'
 'group_sparsity' : True
-'sparsity_threshold': 0
+'sparsity_threshold': 0 #### if sparsity needs to be introduced after some epochs, 0 means it was applied from the start.
 'backbone' : 'resnetd50' #### resnetd50,resnetd101
 'checkpoint': False 
 'checkpoint_folder': '../results/runs/'
-# 'data_dir': "path to data"
-# 'data_split_file': 'path to file'  #### if required
-'wandb_img_log': True
-# 'lambda_list' : [0.000001, 0.00001, 0.0001, 0.001]
-
-### [0.001, 0.0001, 0.00001, 0.000001, 0.0000001]
-##### [0.001, 0.0001, 0.00001, 0.000001]
+'num_trials': 0
+'wandb_img_log': False
 
 
 
@@ -54,7 +49,7 @@
 'seg_loss_fn': 'softCEloss'   ####  dice, Tversky,  softCEloss, Focal
 
 
-#  INITIAL NON SPARSE OPTIMIZER PARAMETERS
+#  NON SPARSE OPTIMIZER PARAMETERS (for the task heads)
 'optimizer': 'adam'    ### 'sgd', 'adamw' , 'adam' 
 'optimizer_params': 
     'learning_rate': 0.0001

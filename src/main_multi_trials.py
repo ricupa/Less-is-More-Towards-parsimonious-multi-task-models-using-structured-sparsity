@@ -6,7 +6,7 @@ torch.cuda.empty_cache()
 os.environ["CUDA_LAUNCH_BLOCKING"]= '1'
 # os.enviorn['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:20000'
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"]= "6"
+os.environ["CUDA_VISIBLE_DEVICES"]= "0"
 torch.backends.cudnn.benchmark = True
 torch.backends.cudnn.enabled = True
 import numpy as np
@@ -33,9 +33,6 @@ from proxssi.optimizers.adamw_hf import AdamW
 # from proxssi.tests import penalties
 from proxssi import penalties
 
-
-# from torch.utils.tensorboard import SummaryWriter
-# import json
 torch.autograd.set_detect_anomaly(True)
 
 parser = argparse.ArgumentParser(description='Training')
@@ -107,7 +104,7 @@ def main():
         else:
             print('folder already exist')
         
-        runs = wandb.init(project= 'CelebA_MTL_sparsity_1',name=config['Experiment_name']+ '_trial_'+ str(trial), entity='ricupa', config=config, dir = fname, reinit=True)
+        runs = wandb.init(project= 'project_mtl_sparsity',name=config['Experiment_name']+ '_trial_'+ str(trial), entity='ricupa', config=config, dir = fname, reinit=True)
         wandb.config.update(config, allow_val_change=True)
 
         if config['checkpoint'] == True:
