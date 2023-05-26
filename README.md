@@ -49,5 +49,11 @@ After exp_name add the name of the experiment or the folder where the model is s
 Note - remember to change the path in the main function of the files. 
 
 
+### Sparsity plots
+
+To plot the sparsity plots of any trained model -
+python plot_sparsity_wandb.py --exp_folder_path give_path_to_the folder_where_model_is_saved
+
+
 
 
