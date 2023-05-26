@@ -1,6 +1,6 @@
 
 ##### conda activate MTLenv
-#### python plot_sparsity_wandb.py --exp_folder_path /home/ricupa/Documents/MTL_meta_adaptive_features/MTL_adaptive_results/new/3_single_class_male_1e5_trial_1/
+#### python plot_sparsity_wandb.py --exp_folder_path ../results/new/8_multi_seg_sn_depth_1e-5_trial_0/
 
 import os
 import gc
@@ -188,13 +188,13 @@ def main():
     
     dir_checkpoint = args.exp_folder_path
 
-    # dir_checkpoint = "/home/ricupa/Documents/MTL_meta_adaptive_features/results/runs/1_seg_trial_1/"
+  
     last_element = os.path.basename(os.path.normpath(dir_checkpoint))
     config = create_config(dir_checkpoint +'config_file.yaml') 
     
     
     fname = config['checkpoint_folder'] + config['Experiment_name']
-    runs = wandb.init(project= 'MTL_sparsity_3_outputs',name=last_element, entity='ricupa', config=config, dir = fname)
+    runs = wandb.init(project= 'MTL_sparsity',name=last_element, entity='enter_entity_name', config=config, dir = fname)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'    
 

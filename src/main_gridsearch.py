@@ -87,8 +87,8 @@ def main():
         else:
             print('folder already exist')           
         
-        runs = wandb.init(project= 'MTL_sparsity_Gridsearch_new_updated',
-                          name= name, entity='ricupa', 
+        runs = wandb.init(project= 'MTL_sparsity',
+                          name= name, entity='write_entity_name', 
                           config=config, 
                           dir = fname,
                           reinit=True)
@@ -164,21 +164,6 @@ def main():
                     wandb.log({f"validation/metric/{key}": value})
                     epochwise_val_metric_dict[key].append(float(value))      
                             
-            ##### also test for every epoch to see the performance 
-            # test_loss, test_metric = trainer.test(epoch, model)
-            
-            # print('test loss: ', test_loss)
-            # print('test metric: ', test_metric)
-            
-            # for key, value in test_loss.items():
-            #     wandb.log({f"test/loss/{key}": value})
-                
-            # for key, value in test_metric.items():
-            #     if isinstance(value, dict):
-            #         for sub_key, sub_value in value.items():
-            #             wandb.log({f"test/metric/{key}/{sub_key}": sub_value})
-            #     else:
-            #         wandb.log({f"test/metric/{key}": value})
             
             
                     
@@ -195,16 +180,7 @@ def main():
                             #### freeze the task head and backbone
                             for params in head.parameters():
                                 params.requires_grad = False
-                            # backbone = model.backbone
-                            # for ct, child in enumerate(backbone.children()): 
-                            #     for param in child.parameters():
-                            #         param.requires_grad = False
 
-                    # elif (task != 'total') and (config['flag'][task] == 0):
-                    #     vloss[task] = config['es_loss'][task]              
-                    # else:
-                    #     continue 
-            
 
             
 
@@ -213,46 +189,7 @@ def main():
                 print("Early stopping")
                 break
             
-            # 
-            
-            
-            # training_dict['loss'] = epochwise_train_losses_dict
-            # training_dict['metric'] = epochwise_train_metric_dict            
-            # with open(fname+"/"+"training_dict.json", "w") as outfile:
-            #     json.dump(training_dict, outfile)
-                
-            
-            # validation_dict['loss'] = epochwise_val_losses_dict
-            # validation_dict['metric'] = epochwise_val_metric_dict        
-            # with open(fname+"/"+"validation_dict.json", "w") as outfile:
-            #     json.dump(validation_dict, outfile)
 
-            
-        # vloss, vmetric, _ = trainer.validate(epoch)
-        
-        # checkpoint = torch.load(fname+'/' + 'checkpoint.pt')
-        # model.load_state_dict(checkpoint['model'])
-        # epoch = 0
-        # test_loss, test_metric = trainer.test(epoch, model)
-        
-        # print('avg_test_metric :',test_metric)
-        
-        # # test_dict['loss'] = np.float64(test_loss)        
-        
-        # #### make sure values are float for saving in json othrwise it gives an error 
-        # for key, value in test_metric.items():
-        #     if isinstance(value, dict):
-        #         for sub_key, sub_value in value.items():
-        #             test_metric[key][sub_key] = float(sub_value)                
-        #     else:
-        #         test_metric[key] = float(value)      
-    
-    
-        # # test_dict['metric'] = test_metric
-    
-        # with open(fname+"/"+"test_dict.json", "w") as outfile:
-        #     json.dump(test_metric, outfile)  
-        
         model = get_model(config)
         model = model.cuda()
         epoch = 0

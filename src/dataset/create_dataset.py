@@ -151,9 +151,6 @@ class CelebMaskHQDataset():
                 name = "{:05d}_mask.npy".format(int(self.data_list[index][:-4]))     
                 # print(name)           
                 img_mask = np.load(os.path.join(self.seg_mask_path,name))
-                # img_mask = img_mask -1
-                # img_mask[img_mask == -1] = 255 ## background
-                # img_mask = img_mask.astype(np.int64)
                 
                 if self.transform is not None:
                     img_mask = self.transform(img_mask)

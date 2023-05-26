@@ -9,7 +9,7 @@ Group sparsity in Machine Learning (ML) encourages simpler, more interpretable m
 Install the required python packages in a conda enviornment using the requirement.yml file
 conda env create -f requirement.yml
 
-wandb is used for logging the results of all the experiments
+wandb is used for logging the results of all the experiments. Remember to enter the correct entity name (yours) and experiment name in the main files before starting to train the models. 
 
 ### Dataset
 In this work two publicly available datasets are used -
@@ -48,6 +48,8 @@ For NYU dataset : python get_outputs.py --exp_name 8_2_multi_seg_sn_depth_ --num
 After exp_name add the name of the experiment or the folder where the model is saved. 
 Note - remember to change the path in the main function of the files. 
 
+
+ALl the results are saved in a csv file in the out_csv folder
 
 ### Sparsity plots
 

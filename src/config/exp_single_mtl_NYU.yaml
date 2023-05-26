@@ -69,5 +69,5 @@
     
 #### DATA 
 'num_input_ch' : 3
-'data_dir_NYU' : "/home/ricupa/Documents/M3TL/NYU_dataset/NYUD_MT"
+'data_dir_NYU' : "../data/NYUD_MT"
 

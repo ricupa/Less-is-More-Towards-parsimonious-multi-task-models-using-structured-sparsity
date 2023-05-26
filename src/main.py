@@ -71,7 +71,7 @@ def main():
     else:
         print('folder already exist')
     
-    runs = wandb.init(project= 'MTL_sparsity_new',name=config['Experiment_name'], entity='ricupa', config=config, dir = fname)
+    runs = wandb.init(project= 'MTL_sparsity',name=config['Experiment_name'], entity='enter_entity_name', config=config, dir = fname)
     wandb.config.update(config)
 
     if config['checkpoint'] == True:

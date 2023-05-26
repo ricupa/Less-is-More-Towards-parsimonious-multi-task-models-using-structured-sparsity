@@ -98,7 +98,7 @@ def check_zero_params(model, config):
 
 def main():
     list_exp = ['8_multi_seg_sn_depth_1e-5_trial_2', '7_multi_sn_depth_1e-5_trial_2', '1_single_seg_1e-5_trial_3','3_single_sn_1e-5_trial_4'] ####,'2_single_depth_1e-5_trial_3'
-    cp_folder = '/proj/ltu_mtl/users/x_ricup/MTL_adaptive_results/new/'
+    cp_folder = '../results/new/'
 
     names = ['seg + sn + depth', 'sn + depth', 'seg', 'sn', 'depth']
     for i, exp in enumerate(list_exp):

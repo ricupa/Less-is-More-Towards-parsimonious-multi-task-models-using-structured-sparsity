@@ -86,7 +86,7 @@ def calculate_percentage_sparsity(model):
 
 def main():
     
-    root_dir = "/home/ricupa/Documents/MTL_meta_adaptive_features/MTL_adaptive_results/new/"
+    root_dir = "../results/runs/"
     
     exp = args.exp_name   
 
