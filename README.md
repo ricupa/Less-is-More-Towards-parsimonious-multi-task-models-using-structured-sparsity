@@ -57,5 +57,10 @@ To plot the sparsity plots of any trained model -
 python plot_sparsity_wandb.py --exp_folder_path give_path_to_the folder_where_model_is_saved
 
 
+### Group sparsity
+The concept of group sparsity is included in the optimizer (ADAM), this is adapted (and modified accordingly) from the article ["Structured Sparsity Inducing Adaptive Optimizers for Deep Learning Tristan"](https://arxiv.org/abs/2102.03869)
+The git of this work can be found [here](https://github.com/tristandeleu/pytorch-structured-sparsity)
+
+
 
 
