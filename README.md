@@ -1,4 +1,4 @@
-# Less is More-- Group Sparsity for Parsimonious Multi Task Models
+# Less is More-- Towards parsimonious multi-task models using structured sparsity
 
 
 ### Abstract
